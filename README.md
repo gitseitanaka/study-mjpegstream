@@ -1,4 +1,7 @@
 
-
-This code as the base is the following:
+* This repository is for the study of 'node.js'.
+* This code as the base is the following:
 http://thejackalofjavascript.com/rpi-live-streaming/
+
+
+

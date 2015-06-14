@@ -4,8 +4,9 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
 var path = require('path');
-var spawn = require('child_process').spawn;
+//var spawn = require('child_process').spawn;
 //var proc;
+
 app.use('/', express.static(path.join(__dirname, 'stream')));
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -40,6 +41,8 @@ function stopStreaming() {
 }
 function startStreaming(io) {
 	if (app.get('watchingFile')) {
+		// Emits an event to all connected clients.
+		// This "emit" is because has server(io).
 		io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
 		return;
 	}
@@ -49,5 +52,5 @@ function startStreaming(io) {
 	app.set('watchingFile', true);
 	fs.watchFile('./stream/image_stream.jpg', function (current, previous) {
 		io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
-	})
+	});
 }
