@@ -27,7 +27,6 @@ io.on('connection', function (socket) {
 	socket.on('disconnect', function () {
 		delete sockets[socket.id];
 		ringPaths[socket.id].stop();
-		delete ringPaths[socket.id];
 
 		// no more sockets, kill the stream
 		if (Object.keys(sockets).length == 0) {
