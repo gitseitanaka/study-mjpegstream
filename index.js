@@ -39,15 +39,21 @@ io.on('connection', function (socket) {
 	socket.on('start-stream', function () {
 		startStreaming(io, sockets[socket.id]);
 	});
+	socket.on('stop-stream', function () {
+		stopStreaming(io, sockets[socket.id]);
+	});
 });
 http.listen(3000, function () {
 	console.log('listening on *:3000');
 });
-function stopStreaming() {
+function stopStreaming(aio, aSocket) {
 	if (Object.keys(sockets).length == 0) {
 		app.set('watchingFile', false);
 //		if (proc) proc.kill();
 		//fs.unwatchFile('./stream/image_stream.jpg');
+	}
+	if (aSocket.id in ringPaths) {
+		ringPaths[aSocket.id].stop();
 	}
 }
 function startStreaming(aio, aSocket) {
@@ -78,6 +84,7 @@ function startStreaming(aio, aSocket) {
 		ringpath.on('end',
 			function (aId) {
 				console.log('++++ end ', aId);
+				aSocket.emit('liveStopped');
 			});
 		console.log('*** start', ringpath.start());
 	}

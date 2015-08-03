@@ -15,14 +15,24 @@ margin-top: 20px;
 <script src="/socket.io/socket.io.js"></script>
 <script>
 var socket = io();
+$('.stop').hide();
+$('#stream').hide();
 socket.on('liveStream', function(url) {
-$('#stream').attr('src', url);
-$('.start').hide();
+    $('#stream').show();
+    $('#stream').attr('src', url);
+    $('.start').hide();
+    $('.stop').show();
+});
+socket.on('liveStopped', function () {
+    $('#stream').hide();
+    $('.start').show();
 });
 
+
 function startStream() {
-socket.emit('start-stream');
-$('.start').hide();
+    socket.emit('start-stream');
+    $('.start').hide();
+    $('.stop').show();
 }
 function stopStream() {
     socket.emit('stop-stream');
