@@ -26,8 +26,9 @@ io.on('connection', function (socket) {
 	console.log("Total clients connected : ", Object.keys(sockets).length);
 	socket.on('disconnect', function () {
 		delete sockets[socket.id];
-		ringPaths[socket.id].stop();
-
+		if (socket.id in ringPaths) {
+			ringPaths[socket.id].stop();
+		}
 		// no more sockets, kill the stream
 		if (Object.keys(sockets).length == 0) {
 			app.set('watchingFile', false);

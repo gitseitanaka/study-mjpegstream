@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Stream My Aquarium</title>
+    <title>MPEG TEST</title>
 <style type="text/css">
 #stream {
 height: 99%;
@@ -24,6 +24,10 @@ function startStream() {
 socket.emit('start-stream');
 $('.start').hide();
 }
+function stopStream() {
+    socket.emit('stop-stream');
+    $('.stop').hide();
+}
 
 </script>
 </head>
@@ -31,6 +35,7 @@ $('.start').hide();
 <h1>mjpeg test</h1>
 <hr>
 <button type="button" id="" class="btn btn-info start" onclick="startStream()">Start</button>
+<button type="button" id="" class="btn btn-info stop" onclick="stopStream()">Stop</button>
 <div class="row">
 <img src="" id="stream">
 </div>
