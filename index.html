@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>MPEG TEST</title>
+    <title>Motion JPEG(MJPEG)</title>
 <style type="text/css">
     #stream {
-        height: 99%;
-        margin-top: 20px;
         display: none;
     }
     .stop {
@@ -17,21 +15,38 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 var socket = io();
-$('.stop').hide();
-$('#stream').hide();
+var isLive = false;
+socket.on('connected',function(id) {
+    socket.emit('stop-stream');
+    $('.start').show();
+    $('.stop').hide();
+    var idString = id;
+    if (isLive) {
+        idString = idString + ' [now reconnected]';
+        isLive = false;
+    }
+    $('#start_id').text(idString);
+});
+socket.on('disconnect', function(){
+  $('#stream').hide();
+  $('.start').hide();
+  $('.stop').hide();
+  $('#start_id').text('[now server down..]');
+});
 socket.on('liveStream', function(url, id) {
-    $('#stream').show();
+    if (!isLive) {
+        $('#stream').show();
+        isLive = true;
+    }
     $('#stream').attr('src', url);
     $('.start').hide();
     $('.stop').show();
-    $('#addonid').text(id);
+    $('#start_id').text(id);
 });
 socket.on('liveStopped', function () {
     $('.start').show();
     $('.stop').hide();
 });
-
-
 function startStream() {
     socket.emit('start-stream');
     $('.start').hide();
@@ -45,15 +60,15 @@ function stopStream() {
 
 </script>
 </head>
-<body class="container">
+<body>
 <h1>mjpeg test</h1>
 <hr>
 <div>
-<p id="addonid"></p>
+<p id="start_id"></p>
 </div>
 <hr>
-<button type="button" id="" class="btn btn-info start" onclick="startStream()">Start</button>
-<button type="button" id="" class="btn btn-info stop" onclick="stopStream()">Stop</button>
+<button type="button" id="" class="btn start" onclick="startStream()">Start</button>
+<button type="button" id="" class="btn stop" onclick="stopStream()">Stop</button>
 <div class="row">
 <img src="" id="stream">
 </div>
