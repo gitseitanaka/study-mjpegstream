@@ -6,9 +6,10 @@ var path = require('path');
 
 var RingPath = require('study-caddon-echo-string');
 
-var faliename = process.argv[2];
+var stream_path = path.join(__dirname, 'stream')
+var file_name = path.join(stream_path, 'path.txt');
 
-app.use('/', express.static(path.join(__dirname, 'stream')));
+app.use('/', express.static(stream_path));
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
@@ -55,7 +56,7 @@ function stopStreaming(aio, aSocket) {
 function startStreaming(aio, aSocket) {
 	try {
 		var ringPath = RingPath(
-			faliename, 100
+			file_name, 100
 		);
 		ringPaths[aSocket.id] = ringPath;
 		console.log("count started : ", Object.keys(ringPaths).length);
