@@ -9,10 +9,6 @@ var RingPath = require('study-caddon-echo-string');
 
 var faliename = process.argv[2];
 
-
-//var spawn = require('child_process').spawn;
-//var proc;
-
 app.use('/', express.static(path.join(__dirname, 'stream')));
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');

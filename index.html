@@ -28,6 +28,7 @@ socket.on('liveStream', function(url, id) {
 });
 socket.on('liveStopped', function () {
     $('.start').show();
+    $('.stop').hide();
 });
 
 
@@ -38,6 +39,7 @@ function startStream() {
 }
 function stopStream() {
     socket.emit('stop-stream');
+    $('.start').show();
     $('.stop').hide();
 }
 
