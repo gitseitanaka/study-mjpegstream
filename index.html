@@ -3,12 +3,14 @@
 <head>
     <title>MPEG TEST</title>
 <style type="text/css">
-#stream {
-height: 99%;
-margin: 0px auto;
-display: block;
-margin-top: 20px;
-}
+    #stream {
+        height: 99%;
+        margin-top: 20px;
+        display: none;
+    }
+    .stop {
+       display: none;
+    }
 </style>
 <!-- jQuery -->
 <script src="http://code.jquery.com/jquery.js"></script>
@@ -17,14 +19,14 @@ margin-top: 20px;
 var socket = io();
 $('.stop').hide();
 $('#stream').hide();
-socket.on('liveStream', function(url) {
+socket.on('liveStream', function(url, id) {
     $('#stream').show();
     $('#stream').attr('src', url);
     $('.start').hide();
     $('.stop').show();
+    $('#addonid').text(id);
 });
 socket.on('liveStopped', function () {
-    $('#stream').hide();
     $('.start').show();
 });
 
@@ -43,6 +45,10 @@ function stopStream() {
 </head>
 <body class="container">
 <h1>mjpeg test</h1>
+<hr>
+<div>
+<p id="addonid"></p>
+</div>
 <hr>
 <button type="button" id="" class="btn btn-info start" onclick="startStream()">Start</button>
 <button type="button" id="" class="btn btn-info stop" onclick="stopStream()">Stop</button>

@@ -32,8 +32,7 @@ io.on('connection', function (socket) {
 		// no more sockets, kill the stream
 		if (Object.keys(sockets).length == 0) {
 			app.set('watchingFile', false);
-//			if (proc) proc.kill();
-//			fs.unwatchFile('./stream/image_stream.jpg');
+
 		}
 	});
 	socket.on('start-stream', function () {
@@ -49,8 +48,7 @@ http.listen(3000, function () {
 function stopStreaming(aio, aSocket) {
 	if (Object.keys(sockets).length == 0) {
 		app.set('watchingFile', false);
-//		if (proc) proc.kill();
-		//fs.unwatchFile('./stream/image_stream.jpg');
+
 	}
 	if (aSocket.id in ringPaths) {
 		ringPaths[aSocket.id].stop();
@@ -58,39 +56,30 @@ function stopStreaming(aio, aSocket) {
 }
 function startStreaming(aio, aSocket) {
 	if (app.get('watchingFile')) {
-		// Emits an event to all connected clients.
-		// This "emit" is because has server(io).
-//		io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
 //		return;
 	}
-//	var args = ["-w", "640", "-h", "480", "-o", "./stream/image_stream.jpg", "-t", "999999999", "-tl", "100"];
-//	proc = spawn('raspistill', args);
+
 	console.log('Watching for changes...');
 	app.set('watchingFile', true);
-//	fs.watchFile('./stream/image_stream.jpg', function (current, previous) {
-		//io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
-//	});
 
 	try {
-		var ringpath = RingPath(
-			faliename, 1000
+		var ringPath = RingPath(
+			faliename, 100
 		);
-		ringPaths[aSocket.id] = ringpath;
-		ringpath.on('progress',
+		ringPaths[aSocket.id] = ringPath;
+		ringPath.on('progress',
 			function (aId, aName) {
-			//aio.to(aSocket.id).json.emit('liveStream', aName + '?_t=' + (Math.random() * 100000));
-				aSocket.emit('liveStream', aName + '?_t=' + (Math.random() * 100000));
+				aSocket.emit('liveStream', aName + '?_t=' + (Math.random() * 100000), aSocket.id + " " + aId);
 		});
-		ringpath.on('end',
+		ringPath.on('end',
 			function (aId) {
 				console.log('++++ end ', aId);
 				aSocket.emit('liveStopped');
 			});
-		console.log('*** start', ringpath.start());
+		console.log('*** start', ringPath.start());
 	}
 	catch(e)
 	{
 		console.log(e.toString());
 	}
-
 }
