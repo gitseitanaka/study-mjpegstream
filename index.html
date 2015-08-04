@@ -22,7 +22,7 @@ socket.on('connected',function(id) {
     $('.stop').hide();
     var idString = id;
     if (isLive) {
-        idString = idString + ' [now reconnected]';
+        idString = idString + ' [Reconnected]';
         isLive = false;
     }
     $('#start_id').text(idString);
