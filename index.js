@@ -5,15 +5,19 @@ var app = express();
 var http = require('http').Server(app);
 var path = require('path');
 
-var stream_path = path.join(__dirname, 'stream');
+var paths = {
+	index  : path.join(__dirname, 'view/index.html'),
+	stream : path.join(__dirname, 'stream'),
+	view   : path.join(__dirname, 'view'),
+};
 
 require('./lib/routes.js')(
 				express, app,
-				stream_path, __dirname + '/index.html');
+				paths);
 
 require('./lib/socketdispatch.js')(
 				http,
-				path.join(stream_path, 'path.txt'));
+				path.join(paths.stream, 'path.txt'));
 
 http.listen(3000, function () {
 	console.log('listening on *:3000');
