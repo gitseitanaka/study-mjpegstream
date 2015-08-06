@@ -1,6 +1,6 @@
 .js-slider{
     position:relative;
-    width:500px;
+    width:200px;
     height:20px;
 }
 .js-slider div{
@@ -13,7 +13,10 @@
 }
 .js-slider input{
     position:absolute;
-    width:15px;
+    width:10px;
     height:20px;
     display:block;
+}
+input#slider1o {
+    width:50px;
 }
