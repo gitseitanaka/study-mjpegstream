@@ -19,4 +19,6 @@
 }
 input#slider1o {
     width:50px;
+    border:none;
+    text-align:right;
 }

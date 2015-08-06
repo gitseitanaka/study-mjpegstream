@@ -20,12 +20,14 @@ socket.on('connected',function(id) {
         isLive = false;
     }
     $('#start_id').text(idString);
+    $('#slider1').show();
 });
 socket.on('disconnect', function(){
   $('#stream').hide();
   $('.start').hide();
   $('.stop').hide();
   $('#start_id').text('[now server down..]');
+  $('#slider1').show();
 });
 socket.on('liveStream', function(url, id) {
     if (!isLive) {
@@ -40,17 +42,20 @@ socket.on('liveStream', function(url, id) {
 socket.on('liveStopped', function () {
     $('.start').show();
     $('.stop').hide();
+    $('#slider1').show();
 });
 var startStream = function() {
     var interval = $('#slider1o').val();
     socket.emit('start-stream', interval);
     $('.start').hide();
     $('.stop').show();
+    $('#slider1').hide();
 }
 var stopStream = function () {
     socket.emit('stop-stream');
     $('.start').show();
     $('.stop').hide();
+    $('#slider1').hide();
 }
 
 </script>
@@ -68,7 +73,7 @@ var stopStream = function () {
 <img src="" id="stream">
 </div>
 <form class="js-slider-form" onsubmit="return false;">
-    <input type="text" name="slider" id="slider1o" value="100" readonly>
+    now interval is<input type="text" name="slider" id="slider1o" value="100" readonly>ms
     <div id="slider1" class="js-slider">
         <div></div>
         <input type="button" value="">
